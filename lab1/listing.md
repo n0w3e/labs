@@ -16,10 +16,6 @@ stepn@DESKTOP-OJ14QF7 MINGW64 ~/github (master)
 $ cd labs/
 
 stepn@DESKTOP-OJ14QF7 MINGW64 ~/github/labs (main)
-$ mrdir lab1
-bash: mrdir: command not found
-
-stepn@DESKTOP-OJ14QF7 MINGW64 ~/github/labs (main)
 $ mkdir lab1
 
 stepn@DESKTOP-OJ14QF7 MINGW64 ~/github/labs (main)
