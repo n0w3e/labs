@@ -1,0 +1,283 @@
+00, ,<,kp1
+00,0,<,kp1
+00,1,<,kp1
+
+#НАХОЖДЕНИЕ ПЕРВОГО ПРОБЕЛА
+kp1,0,<,kp1
+kp1,1,<,kp1
+kp1, ,>,kp2
+
+kp2,1,>,kp3
+kp2,0,>,kp3
+kp3,0, ,num0
+kp3,1, ,num1
+
+#ПЕРЕХОД К ГЕНЕРАЦИИ ВТОРОГО ЧИСЛА
+kp3, ,<,rp
+rp,1,<,rp
+rp,0,<,rp
+rp, ,>,pk
+
+#КОПИРУЕТ ЦИФРУ 1 В ЧЕТНЫЕ РАЗРЯДЫ
+num1, ,>,prw
+prw,1,>,prw
+prw,0,>,prw
+prw, ,>,move1v
+move1v,1,>,move1v
+move1v,0,>,move1v
+move1v, ,1,miss1
+place1,1,>,place1
+place1,0,>,place1
+place1, ,1,miss1
+miss1,1,<,miss1p
+miss1p,1,<,miss1p
+miss1p,0,<,miss1p
+miss1p, ,<,leftspace1
+leftspace1,1,<,leftspace1
+leftspace1,0,<,leftspace1
+leftspace1, ,1,next1
+next1,1,>,kp2
+
+
+#КОПИРУЕТ ЦИФРУ 0 В ЧЕТНЫЕ РАЗРЯДЫ
+num0, ,>,prw0
+prw0,1,>,prw0
+prw0,0,>,prw0
+prw0, ,>,move0v
+move0v,1,>,move0v
+move0v,0,>,move0v
+move0v, ,0,miss0
+place0,1,>,place0
+place0,0,>,place0
+place0, ,1,miss0
+miss0,1,<,miss0p
+miss0,0,<,miss0p
+miss0p,1,<,miss0p
+miss0p,0,<,miss0p
+miss0p, ,<,leftspace0
+leftspace0,1,<,leftspace0
+leftspace0,0,<,leftspace0
+leftspace0, ,0,next0
+next0,0,>,kp2
+
+kp2, ,<,skip2
+skip2,1,<,skip2
+skip2,0,<,skip2
+skip2, ,>,pk
+
+#КОПИРОВАНИЕ ЦИФР В ЧЕТНЫЕ РАЗРЯДЫ
+pk,1, ,space1
+pk,0, ,space0
+space1, ,>,spacenum1
+space1,1,>,space1
+space1,0,>,space1
+spacenum1,1,>,spacenum1
+spacenum1,0,>,spacenum1
+spacenum1, ,>,number1
+number1,1,>,number1
+number1,0,>,number1
+number1, ,>,num21
+
+space0, ,>,spacenum0
+spacenum0,1,>,spacenum0
+spacenum0,0,>,spacenum0
+spacenum0, ,>,number0
+number0,1,>,number0
+number0,0,>,number0
+number0, ,>,num20
+
+#КОПИРУЕТ ЦИФРУ 1 В НЕЧЕТНЫЕ РАЗРЯДЫ
+num21,1,>,num21
+num21,0,>,num21
+num21, ,1,skip21
+skip21,1,<,skip21
+skip21,0,<,skip21
+skip21, ,<,nextn1
+nextn1,0,<,nextn1
+nextn1,1,<,nextn1
+nextn1, ,<,nextn2
+nextn2,1,<,nextn2
+nextn2,0,<,nextn2
+nextn2, ,1,next21
+next21,1,>,search
+search,1,>,pk
+search,0,>,pk
+search, ,>,proverka1
+
+#КОПИРУЕТ ЦИФРУ 0 В НЕЧЕТНЫЕ РАЗРЯДЫ
+num20,1,>,num20
+num20,0,>,num20
+num20, ,0,skip20
+skip20,1,<,skip20
+skip20,0,<,skip20
+skip20, ,<,nextn10
+nextn10,0,<,nextn10
+nextn10,1,<,nextn10
+nextn10, ,<,nextn20
+nextn20,1,<,nextn20
+nextn20,0,<,nextn20
+nextn20, ,0,next20
+next20,0,>,search0
+search0,1,>,pk
+search0,0,>,pk
+search0, ,>,proverka1
+
+pk, ,>,proverka1
+
+#БЛОК ПРОВЕРОК
+proverka10,0,>,proverka10
+proverka10,1,<,obrk
+obrk,0,<,obrk
+obrk, ,>,delete0
+proverka10, , ,final
+proverka1,0,>,proverka1
+proverka1,1,<,obratno1
+obratno1,1,1,promez0
+obratno1,0,<,obratno1
+obratno1, ,>,delete0
+proverka1, ,>,proverka2
+proverka2,0,>,proverka2
+proverka2,1,1,promez1
+proverka2, , ,final
+
+promez1,1, ,promez2
+promez2, ,<,promez2
+promez2,1,>,promokod
+promez2,0,>,promokod
+promokod, ,>,promo
+promo, ,1,okont
+okont,1,>,fort
+
+
+promez0,1, ,promez01
+promez01, ,<,promez01
+promez01,1,>,promokod0
+promez01,0,>,promokod0
+promokod0, ,1,okont0
+okont0,1,>,fort
+
+#УДАЛЕНИЕ ВЕДУЩИХ НУЛЕЙ
+delete0,0, ,delete0
+delete0, ,>,delete0
+delete0,1,>,PROVERKA
+PROVERKA,1,<,PREDZAM
+PROVERKA,0,<,PREDZAM
+PROVERKA, ,<,onenum
+onenum,1, ,ostatok1
+onenum,0, ,ostatok0
+
+ostatok1, ,<,ostatok1
+ostatok1,1,>,post1
+ostatok1,0,>,post1
+post1, ,>,postav1
+postav1, ,1,pspace1
+pspace1,1,>,final
+
+ostatok0, ,<,ostatok0
+ostatok0,1,>,post0
+ostatok0,0,>,post0
+post0, ,>,postav0
+postav0, ,0,pspace0
+pspace0,0,>,final
+
+PREDZAM,1, ,zam
+zam, ,<,zam
+zam,1,>,rpq
+zam,0,>,rpq
+rpq, ,>,rp1
+rp1, ,1,numbers1
+
+numbers1,1,>,findnum
+findnum, ,>,findnum
+findnum,1,>,fn1
+findnum,0,>,fn1
+fj, ,>,fj
+fj,1,1,findnum
+fj,0,0,findnum
+fn1,1,<,fni1 
+fn1,0,<,fni1
+fn1, ,>,perex
+perex, ,<,poxod
+perex,0,<,dryg
+perex,1,<,dryg
+fort, ,<,fort
+fort,1, ,fort1
+fort,0, ,fort0
+
+dryg, ,<,dryg
+dryg,1, ,dryg1
+dryg,0, ,dryg0
+
+poxod, ,<,poxod
+poxod,1, ,poxod1
+poxod,0, ,poxod0
+
+poxod1, ,<,poxod1
+poxod1,1,>,perexod1
+poxod1,0,>,perexod1
+perexod1, ,1,kones
+kones,1,>,final
+
+poxod0, ,<,poxod0
+poxod0,1,>,perexod0
+poxod0,0,>,perexod0
+perexod0, ,0,kones0
+kones0,0,>,final
+
+dryg1, ,<,dryg1
+dryg1,1,>,ppi
+dryg1,0,>,ppi
+ppi, ,1,chikl
+
+dryg0, ,<,dryg0
+dryg0,1,>,ppi0
+dryg0,0,>,ppi0
+ppi0, ,0,chikl
+
+
+chikl,1,>,while
+chikl,0,>,while
+while, ,>,while
+while,1,1,proverka10
+while,0,0,proverka10
+
+
+fort1, ,<,fuil
+fuil, ,<,fuil
+fuil,1,>,hor
+fuil,0,>,hor
+hor, ,1,horm
+horm,1,>,proverka1
+
+fort0, ,<,fuil0
+fuil0, ,<,fuil0
+fuil0,1,>,hor0
+fuil0,0,>,hor0
+hor0, ,0,horm0
+horm0,0,>,proverka1
+
+fni1, ,<,fni1
+fni1,1, ,perenos1
+fni1,0, ,perenos0
+
+perenos1, ,<,findn
+findn, ,<,findn
+findn,1,>,out
+findn,0,>,out
+out, ,1,xt1
+xt1,1,>,fj
+
+perenos0, ,<,findn0
+findn0, ,<,findn0
+findn0,1,>,out0
+findn0,0,>,out0
+out0, ,0,xt0
+xt0,0,>,fj
+
+#ФИНАЛ
+final, ,>,dolgo
+dolgo, ,<,dolgo
+dolgo,1,>,fin
+dolgo,0,>,fin
+
+fin, ,#,fin
