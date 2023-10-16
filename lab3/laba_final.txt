@@ -146,7 +146,7 @@ promez2,1,>,promokod
 promez2,0,>,promokod
 promokod, ,>,promo
 promo, ,1,okont
-okont,1,>,fort
+okont,1,>,dolgo1
 
 
 promez0,1, ,promez01
@@ -154,7 +154,7 @@ promez01, ,<,promez01
 promez01,1,>,promokod0
 promez01,0,>,promokod0
 promokod0, ,1,okont0
-okont0,1,>,fort
+okont0,1,>,dolgo1
 
 #УДАЛЕНИЕ ВЕДУЩИХ НУЛЕЙ
 delete0,0, ,delete0
@@ -171,15 +171,20 @@ ostatok1,1,>,post1
 ostatok1,0,>,post1
 post1, ,>,postav1
 postav1, ,1,pspace1
-pspace1,1,>,final
+pspace1,1,>,fina
 
 ostatok0, ,<,ostatok0
 ostatok0,1,>,post0
 ostatok0,0,>,post0
 post0, ,>,postav0
 postav0, ,0,pspace0
-pspace0,0,>,final
+pspace0,0,>,fina
 
+fina, ,>,fina
+fina,1,1,delete0
+fina,0,>,final
+
+#ПЕРЕНОС ЧИСЛА ВЛЕВО
 PREDZAM,1, ,zam
 zam, ,<,zam
 zam,1,>,rpq
@@ -204,9 +209,37 @@ fort, ,<,fort
 fort,1, ,fort1
 fort,0, ,fort0
 
+fni1, ,<,fni1
+fni1,1, ,perenos1
+fni1,0, ,perenos0
+
+perenos1, ,<,findn
+findn, ,<,findn
+findn,1,>,out
+findn,0,>,out
+out, ,1,xt1
+xt1,1,>,fj
+
+perenos0, ,<,findn0
+findn0, ,<,findn0
+findn0,1,>,out0
+findn0,0,>,out0
+out0, ,0,xt0
+xt0,0,>,fj
+
 dryg, ,<,dryg
 dryg,1, ,dryg1
 dryg,0, ,dryg0
+
+dryg1, ,<,dryg1
+dryg1,1,>,ppi
+dryg1,0,>,ppi
+ppi, ,1,chikl
+
+dryg0, ,<,dryg0
+dryg0,1,>,ppi0
+dryg0,0,>,ppi0
+ppi0, ,0,chikl
 
 poxod, ,<,poxod
 poxod,1, ,poxod1
@@ -223,16 +256,6 @@ poxod0,1,>,perexod0
 poxod0,0,>,perexod0
 perexod0, ,0,kones0
 kones0,0,>,final
-
-dryg1, ,<,dryg1
-dryg1,1,>,ppi
-dryg1,0,>,ppi
-ppi, ,1,chikl
-
-dryg0, ,<,dryg0
-dryg0,1,>,ppi0
-dryg0,0,>,ppi0
-ppi0, ,0,chikl
 
 
 chikl,1,>,while
@@ -256,26 +279,12 @@ fuil0,0,>,hor0
 hor0, ,0,horm0
 horm0,0,>,proverka1
 
-fni1, ,<,fni1
-fni1,1, ,perenos1
-fni1,0, ,perenos0
-
-perenos1, ,<,findn
-findn, ,<,findn
-findn,1,>,out
-findn,0,>,out
-out, ,1,xt1
-xt1,1,>,fj
-
-perenos0, ,<,findn0
-findn0, ,<,findn0
-findn0,1,>,out0
-findn0,0,>,out0
-out0, ,0,xt0
-xt0,0,>,fj
 
 #ФИНАЛ
 final, ,>,dolgo
+dolgo1,1,>,dolgo1
+dolgo1,0,>,dolgo1
+dolgo1, , ,fin
 dolgo, ,<,dolgo
 dolgo,1,>,fin
 dolgo,0,>,fin
