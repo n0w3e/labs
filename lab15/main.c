@@ -1,58 +1,77 @@
 #include <stdio.h>
 
-void swapColumns(int size, int matrix[size][size], int col1, int col2) {
+void findMinMax(int matrix[][100], int size, int *min, int *max) {
+    *min = matrix[0][0];
+    *max = matrix[0][0];
+
     for (int i = 0; i < size; i++) {
-        int temp = matrix[i][col1];
-        matrix[i][col1] = matrix[i][col2];
-        matrix[i][col2] = temp;
+        for (int j = 0; j < size; j++) {
+            if (matrix[i][j] < *min) {
+                *min = matrix[i][j];
+            }
+            if (matrix[i][j] > *max) {
+                *max = matrix[i][j];
+            }
+        }
     }
 }
 
-int main(void) {
-    int size;
+void replaceMaxWithMinCols(int matrix[][100], int size) {
+    int min, max;
+    findMinMax(matrix, size, &min, &max);
 
-    printf("Введите размер квадратной матрицы: ");
-    scanf("%d", &size);
+    int countMin = 0;
+    for (int j = 0; j < size; j++) {
+        for (int i = 0; i < size; i++) {
+            if (matrix[i][j] == min) {
+                countMin++;
+            }
+        }
+    }
 
-    int matrix[size][size];
-
-    printf("Введите элементы матрицы %dx%d:\n", size, size);
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            scanf("%d", &matrix[i][j]);
+            if (matrix[i][j] == max) {
+                matrix[i][j] = countMin;
+            }
         }
     }
+}
 
-    int colSums[size];
-
-    for (int j = 0; j < size; j++) {
-        colSums[j] = 0;
-        for (int i = 0; i < size; i++) {
-            colSums[j] += matrix[i][j];
-        }
-    }
-
-    int maxSumIndex = 0;
-    int minSumIndex = 0;
-
-    for (int j = 1; j < size; j++) {
-        if (colSums[j] > colSums[maxSumIndex]) {
-            maxSumIndex = j;
-        }
-        if (colSums[j] < colSums[minSumIndex]) {
-            minSumIndex = j;
-        }
-    }
-
-    swapColumns(size, matrix, maxSumIndex, minSumIndex);
-
-    printf("Матрица после перестановки столбцов:\n");
+void printMatrix(int matrix[][100], int size) {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             printf("%d ", matrix[i][j]);
         }
         printf("\n");
     }
+}
+
+int main(void) {
+    int size;
+    printf("Введите размер квадратной матрицы: ");
+    scanf("%d", &size);
+
+    int matrix[100][100];
+
+    if (size != 0){
+        printf("Введите элементы матрицы %dx%d:\n", size, size);
+    } else {
+        printf("Некорректный ввод!\n");
+    }
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+
+    replaceMaxWithMinCols(matrix, size);
+
+    if (size != 0) {
+        printf("\nМатрица после изменений:\n");
+    }
+
+    printMatrix(matrix, size);
 
     return 0;
 }
