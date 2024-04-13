@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Структура для представления узла дерева
 struct Node {
     int data;
     struct Node *parent;
@@ -9,7 +8,6 @@ struct Node {
     struct Node *sibling;
 };
 
-// Создание нового узла
 struct Node* createNode(int data, struct Node *parent) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     if (newNode == NULL) {
@@ -23,7 +21,6 @@ struct Node* createNode(int data, struct Node *parent) {
     return newNode;
 }
 
-// Функция для добавления узла как дочернего к указанному родительскому узлу
 void addChild(struct Node *parent, int data) {
     struct Node* newNode = createNode(data, parent);
     if (parent->child == NULL) {
@@ -37,17 +34,15 @@ void addChild(struct Node *parent, int data) {
     }
 }
 
-// Функция для удаления поддерева, начиная с указанного узла
+
 void deleteSubtree(struct Node *parent, struct Node *node) {
     if (node == NULL) return;
     
-    // Если удаляемый узел - корень дерева
     if (parent == NULL) {
         deleteSubtree(NULL, node->child);
         deleteSubtree(NULL, node->sibling);
         free(node);
     } else {
-        // Если удаляемый узел - дочерний узел
         if (parent->child == node) {
             parent->child = NULL;
         } else {
@@ -63,7 +58,14 @@ void deleteSubtree(struct Node *parent, struct Node *node) {
     }
 }
 
-// Функция для текстовой визуализации дерева
+void deleteRoot(struct Node **root) {
+    if (*root == NULL) return;
+
+    deleteSubtree(NULL, (*root)->child);
+    free(*root);
+    *root = NULL;
+}
+
 void printTree(struct Node *node, int depth) {
     if (node == NULL) return;
     for (int i = 0; i < depth; i++) {
@@ -74,11 +76,8 @@ void printTree(struct Node *node, int depth) {
     printTree(node->sibling, depth);
 }
 
-// Функция для нахождения глубины максимальной вершины
-// Глобальная переменная для хранения максимальной глубины
 int maxDepth = 0;
 
-// Функция для нахождения максимальной глубины
 void findMaxDepth(struct Node *node, int depth) {
     if (node == NULL) {
         return;
@@ -86,9 +85,7 @@ void findMaxDepth(struct Node *node, int depth) {
     if (depth > maxDepth) {
         maxDepth = depth;
     }
-    // Рекурсивно обходим всех дочерних узлов
     findMaxDepth(node->child, depth + 1);
-    // Рекурсивно обходим всех сестринских узлов
     findMaxDepth(node->sibling, depth);
 }
 
@@ -96,7 +93,6 @@ void findMaxDepth(struct Node *node, int depth) {
 int main() {
     struct Node* root = NULL;
 
-    // Функция для ввода пользователем корневой вершины дерева
     int rootData;
     printf("Введите значение корневой вершины: ");
     scanf("%d", &rootData);
@@ -109,7 +105,8 @@ int main() {
         printf("2. Вывести дерево\n");
         printf("3. Удалить поддерево\n");
         printf("4. Найти глубину максимальной вершины\n");
-        printf("5. Выйти\n");
+        printf("5. Удалить корневую вершину и все поддеревья\n");
+        printf("6. Выход\n");
         printf("Выберите действие: ");
         scanf("%d", &choice);
 
@@ -123,7 +120,6 @@ int main() {
                 
                 struct Node *foundParent = NULL;
                 
-                // Функция поиска родительского узла во всем дереве
                 void findParent(struct Node *node, int data) {
                     if (node == NULL || foundParent != NULL) return;
                     if (node->data == data) {
@@ -134,13 +130,11 @@ int main() {
                     findParent(node->sibling, data);
                 }
                 
-                // Начинаем поиск с корня дерева
                 findParent(root, parentData);
                 
                 if (foundParent == NULL) {
                     printf("Родительский узел не найден\n");
                 } else {
-                    // Добавляем новый узел к найденному родительскому узлу
                     addChild(foundParent, newData);
                     printf("Узел успешно добавлен\n");
                 }
@@ -160,7 +154,6 @@ int main() {
                 struct Node *deleteNode = NULL;
                 struct Node *parentNode = NULL;
 
-                // Функция поиска узла для удаления
                 void findDeleteNode(struct Node *node, int data, struct Node *parent) {
                     if (node == NULL || deleteNode != NULL) return;
                     if (node->data == data) {
@@ -172,18 +165,17 @@ int main() {
                     findDeleteNode(node->sibling, data, parent);
                 }
 
-                // Начинаем поиск с корня дерева
                 findDeleteNode(root, deleteData, NULL);
 
                 if (deleteNode == NULL) {
                     printf("Узел для удаления не найден\n");
                 } else {
                     if (parentNode == NULL) {
-                        deleteSubtree(NULL, deleteNode);
+                        printf("Нельзя удалить корневую вершину с помощью этой кнопки\n");
                     } else {
                         deleteSubtree(parentNode, deleteNode);
+                        printf("Поддерево удалено\n");
                     }
-                    printf("Поддерево удалено\n");
                 }
                 break;
             }
@@ -195,6 +187,20 @@ int main() {
                 break;
             }
             case 5: {
+                printf("Удалить корневую вершину и все поддеревья (y/n): ");
+                char answer;
+                scanf(" %c", &answer);
+                if (answer == 'y' || answer == 'Y') {
+                    deleteRoot(&root);
+                    printf("Дерево успешно удалено\n");
+                    
+                    printf("Введите значение новой корневой вершины: ");
+                    scanf("%d", &rootData);
+                    root = createNode(rootData, NULL);
+                }
+                break;
+            }
+            case 6: {
                 printf("Выход из программы\n");
                 break;
             }
@@ -203,9 +209,8 @@ int main() {
                 break;
             }
         }
-    } while (choice != 5);
+    } while (choice != 6);
 
-    // Удаление дерева перед завершением программы
     deleteSubtree(NULL, root);
 
     return 0;
