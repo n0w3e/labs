@@ -2,13 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 
-bool has_failed_course(test **tests, int count) {
+bool has_exactly_one_five(test **tests, int count) {
+    int five_count = 0;
     for (int i = 0; i < count; i++) {
-        if (tests[i]->score < 4) {
-            return true;
+        if (tests[i]->score == 5) {
+            five_count++;
         }
     }
-    return false;
+    return five_count == 1;
 }
 
 void print_student(Student *s) {
@@ -55,19 +56,21 @@ int main(int argc, const char *argv[]) {
             i++;
         }
     }
+
     Student s;
     int count = 0;
     int read_result;
     while ((read_result = get_student(&s, f)) == 0) {
         if (strcmp(s.sex, "Ж") == 0 && strcmp(s.group, p) == 0) {
-            if (!has_failed_course(s.tests, s.count)) {
+            if (has_exactly_one_five(s.tests, s.count)) {
                 count += 1;
                 if (fflag) print_student(&s);
             }
         }
+        free_student(&s); // Освобождаем память, выделенную для текущего студента
     }
 
-    fprintf(stdout, "Количество студенток из группы %s, которые получают стипендию: %d\n", p, count);
+    fprintf(stdout, "Количество студенток из группы %s, имеющих ровно одну пятерку: %d\n", p, count);
     fclose(f);
     return 0;
 }
