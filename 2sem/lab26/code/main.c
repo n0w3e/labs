@@ -6,11 +6,12 @@ int main() {
     Stack *stack = createStack(10);
 
     // Заполнение стека элементами
-    push(stack, 5);
     push(stack, 3);
+    push(stack, 3);
+    push(stack, 7);
+    push(stack, 1);
+    push(stack, 5);
     push(stack, 8);
-    push(stack, 6);
-    push(stack, 2);
 
     printf("Stack before sorting:\n");
     for (int i = 0; i <= stack->top; i++) {

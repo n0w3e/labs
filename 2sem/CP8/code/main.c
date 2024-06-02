@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "list.h"
+#include "iterator.h"
 
 void printMenu() {
     printf("Выберите действие:\n");
@@ -13,7 +14,8 @@ void printMenu() {
 }
 
 int main() {
-    Node* head = NULL;
+    List list;
+    list.head = NULL;
     int choice, data;
 
     do {
@@ -22,25 +24,32 @@ int main() {
         scanf("%d", &choice);
 
         switch (choice) {
-            case 1:
+            case 1: {
                 printf("Список: ");
-                printList(head);
+                Iterator *iter = iter_create(&list);
+                Node *node;
+                while ((node = iter_next(iter)) != NULL) {
+                    printf("%d -> ", node->data);
+                }
+                printf("NULL\n");
+                iter_delete(iter);
                 break;
+            }
             case 2:
                 printf("Введите значение для вставки: ");
                 scanf("%d", &data);
-                insertNode(&head, data);
+                insertNode(&(list.head), data);
                 break;
             case 3:
                 printf("Введите значение для удаления: ");
                 scanf("%d", &data);
-                deleteNode(&head, data);
+                deleteNode(&(list.head), data);
                 break;
             case 4:
-                printf("Длина списка: %d\n", listLength(head));
+                printf("Длина списка: %d\n", listLength(list.head));
                 break;
             case 5:
-                swapSecondAndPenultimate(head);
+                swapSecondAndPenultimate(list.head);
                 printf("Обмен 2-го и предпоследнего элемента выполнен.\n");
                 break;
             case 0:
@@ -54,9 +63,9 @@ int main() {
     } while (choice != 0);
 
     // Освобождение памяти
-    while (head != NULL) {
-        Node* temp = head;
-        head = head->next;
+    while (list.head != NULL) {
+        Node* temp = list.head;
+        list.head = list.head->next;
         free(temp);
     }
 

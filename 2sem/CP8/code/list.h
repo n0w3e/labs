@@ -6,6 +6,10 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
+typedef struct {
+    Node *head;
+} List;
+
 Node* createNode(int data);
 void printList(Node* head);
 void insertNode(Node** head, int data);

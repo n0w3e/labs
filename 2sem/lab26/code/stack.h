@@ -19,4 +19,4 @@ void push(Stack *stack, int item);
 int pop(Stack *stack);
 void quickSortStack(Stack *stack);
 
-#endif // STACK_H
+#endif
